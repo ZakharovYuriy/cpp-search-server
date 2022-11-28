@@ -23,7 +23,7 @@ int ReadLineWithNumber() {
 void MatchDocuments(const SearchServer& search_server, const string& query) {
     using namespace std;
     try {
-        cout << "Матчинг документов по запросу: "s << query << endl;
+        cout << "Matching documents on request: "s << query << endl;
         //const int document_count = search_server.GetDocumentCount();
         for (const int document_id : search_server) {
             const auto [words, status] = search_server.MatchDocument(query, document_id);
@@ -31,20 +31,20 @@ void MatchDocuments(const SearchServer& search_server, const string& query) {
         }
     }
     catch (const invalid_argument& e) {
-        cout << "Ошибка матчинга документов на запрос "s << query << ": "s << e.what() << endl;
+        cout << "Error in matching documents to a request "s << query << ": "s << e.what() << endl;
     }
 }
 
 void FindTopDocuments(const SearchServer& search_server, const string& raw_query) {
     using namespace std;
-    cout << "Результаты поиска по запросу: "s << raw_query << endl;
+    cout << "Search results for the query: "s << raw_query << endl;
     try {
         for (const Document& document : search_server.FindTopDocuments(raw_query)) {
             PrintDocument(document);
         }
     }
     catch (const invalid_argument& e) {
-        cout << "Ошибка поиска: "s << e.what() << endl;
+        cout << "Search error: "s << e.what() << endl;
     }
 }
 
@@ -55,6 +55,6 @@ void AddDocument(SearchServer& search_server, int document_id, const string& doc
         search_server.AddDocument(document_id, document, status, ratings);
     }
     catch (const invalid_argument& e) {
-        cout << "Ошибка добавления документа "s << document_id << ": "s << e.what() << endl;
+        cout << "Error adding a document"s << document_id << ": "s << e.what() << endl;
     }
 }

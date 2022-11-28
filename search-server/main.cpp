@@ -5,22 +5,22 @@
 #include <string>
 #include <vector>
 
-
 int main() {
-    
+	//basic tests
+	TestSearchServer();
 
-    //test1();
-    //test2();
-    //test3();
-    //test4();
-    //test5();
-    test6();
-    test7();
-    test8();
-   // test9();
-   //test10();
-   // test11();
-    test12();
-    test13();
+	ManyRequests();
+	TestPaginate();
+	SpecializationOfTemplates();
+	TestRemoveDuplicates();
+	SimpleTestProcessQueries();
+	StressTestProcessQueries();
+	SimpleTestProcessQueriesJoined();
+	StressTestProcessQueriesJoined();
+	SimpleTestRemoveDocument();
+	StressTestRemoveDocument();
+	TestDifferentVersionsMatchDocument();
+	TestDifferentVersionsFindTopDocuments();
+	StressTestDifferentVersionsFindTopDocuments();
     return 0;
 }
