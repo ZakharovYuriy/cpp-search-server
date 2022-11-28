@@ -27,7 +27,7 @@ cmake --build Debug/.
 cmake --build Release/.
 ```
 
-5)To **Run** program- go to the debug (cd Debug/) or release (cd Release/) folder and run:<br>
+5)To **Run** program - go to the debug (cd Debug/) or release (cd Release/) folder and run:<br>
 
 ```
 ./search_server
@@ -127,13 +127,13 @@ mkdir Release; cmake -E chdir Release/ cmake -G "Unix Makefiles" ../ -DCMAKE_BUI
      b. The use of basic algorithms **<algorithm>**.<br>
 		 c. Using **structures**, **classes**, **lambda functions**, creating **tuples**<br>
 		 d. Parsign of lines with output to the screen<br>
-				String parsing with saving in the container **vector**<br>
-				Allocation of string parsing in a function for further reuse <br>
-				(Working with **functions** , **Arguments**, **Return result**<br>
-				Query Parsing - **Links**, **Constancy**, **Deep Copying** <br>
-        Stop word processing - container **set**<br>
-				Adding documents to the search engine, Document Search,<br>
-				Calculating the relevance of found documents - containers: **pair**, **map** <br>
+		    String parsing with saving in the container **vector**<br>
+		    Allocation of string parsing in a function for further reuse <br>
+		    (Working with **functions** , **Arguments**, **Return result**<br>
+		    Query Parsing - **Links**, **Constancy**, **Deep Copying** <br>
+        	    Stop word processing - container **set**<br>
+		    Adding documents to the search engine, Document Search,<br>
+		    Calculating the relevance of found documents - containers: **pair**, **map** <br>
 		 e. Use of **Templates** and **Specialization of templates**<br>
 		 f. Creating and using macros<br>
 		 g. **Overloading** operators<br>
@@ -142,23 +142,23 @@ mkdir Release; cmake -E chdir Release/ cmake -G "Unix Makefiles" ../ -DCMAKE_BUI
 		 g. **Iterators**<br>
 		 k. Recursion<br>
 		 l. **Stack**, **Dec**<br>
-     m. Working with standard input/output streams<br>
-		 Working with file streams<br>
+     		 m. Working with standard input/output streams<br>
+		    Working with file streams<br>
 		 n. **Static**, **Automatic** and **Dynamic** placement of objects in memory<br>
 		 o. Parallel work using the bible library **<execution>**<br>
 		 p. Scan algorithms<br>
 		 q. Asynchronous calculations using the library **<future>**<br>
 		 r. Race state protection: **mutex**, **lock_guard**, **atomic**-types<br>
 
-  2. Calculation of term frequency and inverse document frequency
-	3. **Unit testing**
-	4. Decomposition and debugging
-	5. Creating multi-file projects
-	6. Profiling
-	7. Evaluation of the complexity of the program
-	8. MapReduce is a concept in which the algorithm is divided into two stages:<br>
-		 independent filtering and transformation of individual elements (map or transform);<br>
-		 grouping of the results of the previous stage (reduce).<br>
+  2. Calculation of term frequency and inverse document frequency<br>
+  3. **Unit testing**<br>
+  4. Decomposition and debugging<br>
+  5. Creating multi-file projects<br>
+  6. Profiling<br>
+  7. Evaluation of the complexity of the program<br>
+  8. MapReduce is a concept in which the algorithm is divided into two stages:<br>
+     independent filtering and transformation of individual elements (map or transform);<br>
+     grouping of the results of the previous stage (reduce).<br>
 
 # Description of the tests performed:  
 ## ManyRequests  
