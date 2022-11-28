@@ -1,9 +1,9 @@
 # Search server
-Учебный проект С++17
+Educational project С++17
 
 # Program Description
-Это поисковая система потерянных животных. Для этого нужен поисковый запрос и документы, по которым идёт поиск. 
-Допустим, кто-то нашёл на улице кота и запостил объявление об этом. Так в системе появился документ «Кот белый пушистый с синим ошейником найден в районе Перово в Москве телефон для связи 89222334455». Хозяин кота отправил запрос «Белый кот синий ошейник» и смог вернуть любимца.В общем случае поисковая система может работать с любыми запросами.
+This is a search engine for lost animals. To do this, you need a search query and the documents that are being searched.
+Let's say someone found a cat on the street and posted an ad about it. So a document appeared in the system "A white fluffy cat with a blue collar was found in the Perovo district in Moscow phone for communication 89222334455". The owner of the cat sent a request "White cat blue collar" and was able to return the pet.In general, the search engine can work with any queries.
 
 # Build a Project using Cmake
 To build this project on linux you need:<br>
@@ -41,164 +41,168 @@ mkdir Release; cmake -E chdir Release/ cmake -G "Unix Makefiles" ../ -DCMAKE_BUI
 
 # Usage
 
-### Перед тем как начать:
-  0. Установка и настройкка всех требуемых компонентов в среде разработки длля запуска приложения
-  1. Вариант использования показан в main.cpp и test_example_functions.h 
+### Before you start:
+  0. Installing and configuring all required components in the development environment to run the application
+  1. The use case is shown in main.cpp and test_example_functions.h 
 
-## Описание возможностей:
+## Description of features:
 
-### Ядром поисковой системы является класс:  SearchServer
- Метдоы класса SearchServer:
+### The core of the search engine is the class:  SearchServer
+ Methods of the SearchServer class:
  
-- Конструктор принимает строку- Стоп-слова например: `"in at and"s` <br>
-  Стоп-слово в запросе не учитывается при поиске.
+- The constructor accepts a string of stop-words, for example: `"in at and"s` <br>
+  The stop-word in the query is not taken into account when searching.
   
--  Добавление документов в поисковую систему.
-  `void AddDocument(int document_id, string_view document,DocumentStatus status, const vector<int> &ratings);`  
-  document - строка вида: `"funny pet and nasty -rat"s`<br>
-  где *"funny pet nasty"* - слова по которым будет идти поиcк<br>
-  *"and"* - стоп слово, указанное в конструкторе SearchServer<br>
-  *"-rat"* - миус слово<br>
-  Минус-слова исключают из результатов поиска документы, содержащие такие слова.<br>
-  Возможный DocumentStatus: `ACTUAL, IRRELEVANT, BANNED, REMOVED` <br>
-  ratings - Каждый документ на входе имеет набор оценок пользователей. <br>
-  Первая цифра — это количество оценок<br>
-  например:*{4 5 -12 2 1}*;<br>
+-  Adding documents to the search engine.
+  `void AddDocument(int document_id, string_view document,DocumentStatus status, const vector<int> &ratings);` 
+   
+  document - string as: `"funny pet and nasty -rat"s`<br>
+  where *"funny pet nasty"* - the words that will be searched for<br>
+  *"and"* - the stop word specified in the SearchServer constructor<br>
+  *"-rat"* - mius-word<br>
+  Mnius-words exclude documents containing such words from the search results.<br>
+  Possible DocumentStatus: `ACTUAL, IRRELEVANT, BANNED, REMOVED` <br>
+  ratings -  Each document at the input has a set of user ratings. <br>
+  The first digit is the number of ratings<br>
+  For example:*{4 5 -12 2 1}*;<br>
   
-- Поиск document в поисковом сервере и ранжирование по TF-IDF<br>
-  Есть 6 способов вызова функции 3 однопоточные и 3 многопоточнные ExecutionPolicy  
+- Document search in the search server and ranking by TF-IDF<br>
+  There are 6 ways to call the function 3 multithreaded (ExecutionPolicy) and 3 single-threaded  <br>
   `FindTopDocuments (ExecutionPolicy,query)`  
   `FindTopDocuments (ExecutionPolicy,query,DocumentStatus)`  
   `FindTopDocuments (ExecutionPolicy,query,DocumentPredicate)`  
   `FindTopDocuments (query)`  
   `FindTopDocuments (query,DocumentStatus)`  
   `FindTopDocuments (query,DocumentPredicate)`<br>
-  возвращает vector<Document> подходящих по *query*<br>
-  Полезность слов оценивают понятием inverse document frequency или IDF. <br>
-  Эта величина — свойство слова, а не документа. <br>
-  Чем в большем количестве документов есть слово, тем ниже IDF.<br>
-  Выше располагать документы, где искомое слово встречается более одного раза. <br>
-  Здесь нужно рассчитать term frequency или TF.<br>
-  Для конкретного слова и конкретного документа это доля, которую данное слово занимает среди всех.<br>
+  <br>
+  Returns vector<Document> matching by *query*<br>
+  The usefulness of words is evaluated by the concept of inverse document frequency or IDF. <br>
+	This value is a property of a word, not a document. <br>
+	The more documents have a word in them, the lower the IDF.<br>
+	Above, place documents where the search word occurs more than once. <br>
+	Here you need to calculate the term frequency or TF.<br>
+	For a specific word and a specific document, this is the share that this word occupies among all.<br>
   
- - `GetDocumentCount()` - возвращает количество документов в поисковом сервере<br>
+ - `GetDocumentCount()` - returns the number of documents in the search server<br>
   
- - `begin и end` - Они вернут итераторы. Итератор даст доступ к id всех документов, хранящихся в поисковом сервере.<br>
+ - `begin и end` - They will return iterators. The iterator will give access to the id of all documents stored in the search server.<br>
   
-- `tuple<std::vector<std::string_view>, DocumentStatus> MatchDocument(raw_query, document_id)`<br>
-  Возвращает:Первый объект — это вектор слов запроса, которые нашлись в документе document_id, <br>
-  а второй объект — статус документа<br>
+ - `tuple<std::vector<std::string_view>, DocumentStatus> MatchDocument(raw_query, document_id)`<br>
+  Returns:The first object is a vector of query words that were found in the document_id document, <br>
+	and the second object is the status of the document<br>
 
-- Метод получения частот слов по id документа:<br>
+ - Method of obtaining word frequencies by document id:<br>
  `map<string, double> GetWordFrequencies(document_id)`<br>
 
-- Удаление документа из поискового сервера <br>
+ - Deleting a document from the search server <br>
   `RemoveDocument(document_id)`  
   `RemoveDocument(ExecutionPolicy,document_id)`  
   `RemoveDocument(ExecutionPolicy, document_id)`
   
-### Дополнительный фуннкционал:
-- Вывод в поток станндартного ввода/вывода информацию о докукменте<br>
+### Additional functionality:
+- Output to the standard input/output stream information about the document<br>
   `PrintDocument(document)`<br>
   `PrintMatchDocumentResult(document_id,vector<std::string_view> &words, DocumentStatus)`<br>
 
-- Класс `LogDuration` - позволяет проводить профилирование<br>
+- Класс `LogDuration` - allows profiling<br>
 
-- `Paginate()` - Позволяет разбивать результаты на страницы<br>
+- `Paginate()` - Allows you to split the results into pages<br>
 
-- `RemoveDuplicates(SearchServer)` - позволяет избавиться от дублирующихся документов<br>
+- `RemoveDuplicates(SearchServer)` - allows you to remove duplicate documents<br>
 
-- А так же другие функции, обеспечивающие обработку входных данных.<br>
+- As well as other functions that provide input data processing.<br>
 
-# Системые требования:
+# System requirements:
   1. C++17(STL)
   2. GCC (MinG w64) 11.2.0  
   
-# Паны по доработке:
-1. Добавить UI
-2. Добавить возможность чтения документов из файлов
-3. Добавить поддержку JSON запросов/ответов
+# Plans for completion:
+1. Add UI
+2. Add the ability to read documents from files
+3. Add support for JSON requests/responses
 
-# Стек технологий:
-  1. В проекте показано знание базовых принципов программирования С++:<br>
-     a. **Числа**, **строки**, **символы**, ввод/вывод данных в **консоли**, **условия**, **циклы**.<br>
-     b. Использованние базовых алгоритмов **<algorithm>**.<br>
-     с. Использованние **структур**, **классов**, **лямбда функций**, созданние **кортежей**<br>
-     d. Парсигн строк с выводом на экран<br>
-        Парсинг строк с сохранением в контейнере **vector**<br>
-        Выделение парсинга строки в функции для дальнейшего переиспользования <br>
-        (Работа с **функциями** , **Аргументы**, **Возврат результата**<br>
-        Парсинг запроса - **Ссылки**, **Константность**, **Глубокое копированине**  <br>
-        Обработка стоп-слов - контейнер **set**<br>
-        Добавление документов в поисковую систему, Поиск документов,<br>
-        Вычисление релевантности найденных документов - контейнеры: **pair**, **map** <br>
-     e. Использование **Шаблонов** и **Специализация шаблонов**<br>
-     f. Создание и использование макросов<br>
-     g.	**Перегрузка** операторов<br>
-     h.	Обработка **исключений**<br>
-     i.	Применение класса **optional**<br>
-     g.	**Итераторы**<br>
-     k. Рекурсия<br>
-     l. **Стек**, **Дек**<br>
-     m.	Работа с стандартными потоками ввода вывода<br>
-     	Работа с файловыми потоками<br>
-     n.	**Статическое**, **Автоматическое** и **Динамическое** размещение обьектов в памяти<br>
-     o. Паралелная работа при помощи библтотеки **<execution>**<br>
-     p. Scan-алгоритмы<br>
-     q. Асинхронные вычисления при помощи библтотеки **<future>**<br>
-     r.	Защита от состояния гонки: **mutex**, **lock_guard**, **atomic**-типы<br>
+# Technology stack:
+  1. The project shows knowledge of the basic principles of C++ programming:<br>
+     a. **Numbers**, **strings**, **symbols**, data input/output in **console**, **conditions**, **loops**.<br>
+     b. The use of basic algorithms **<algorithm>**.<br>
+		 c. Using **structures**, **classes**, **lambda functions**, creating **tuples**<br>
+		 d. Parsign of lines with output to the screen<br>
+				String parsing with saving in the container **vector**<br>
+				Allocation of string parsing in a function for further reuse <br>
+				(Working with **functions** , **Arguments**, **Return result**<br>
+				Query Parsing - **Links**, **Constancy**, **Deep Copying** <br>
+        Stop word processing - container **set**<br>
+				Adding documents to the search engine, Document Search,<br>
+				Calculating the relevance of found documents - containers: **pair**, **map** <br>
+		 e. Use of **Templates** and **Specialization of templates**<br>
+		 f. Creating and using macros<br>
+		 g. **Overloading** operators<br>
+		 h. Handling **exceptions**<br>
+		 i. Application of the **optional** class<br>
+		 g. **Iterators**<br>
+		 k. Recursion<br>
+		 l. **Stack**, **Dec**<br>
+     m. Working with standard input/output streams<br>
+		 Working with file streams<br>
+		 n. **Static**, **Automatic** and **Dynamic** placement of objects in memory<br>
+		 o. Parallel work using the bible library **<execution>**<br>
+		 p. Scan algorithms<br>
+		 q. Asynchronous calculations using the library **<future>**<br>
+		 r. Race state protection: **mutex**, **lock_guard**, **atomic**-types<br>
 
-  2. Вычисение term frequency и inverse document frequency
-  3. **Юнит тестирование**
-  4. Декомпозиция и отладка
-  5. Создание многофайловых проектов
-  6. Профилирование
-  7. Оценка сложности программы
-  8. MapReduce — концепция, при которой алгоритм разбивается на две стадии:<br>
-	независимая фильтрация и преобразование отдельных элементов (map или transform);<br>
-	группировка результатов предыдущей стадии (reduce).<br>
+  2. Calculation of term frequency and inverse document frequency
+	3. **Unit testing**
+	4. Decomposition and debugging
+	5. Creating multi-file projects
+	6. Profiling
+	7. Evaluation of the complexity of the program
+	8. MapReduce is a concept in which the algorithm is divided into two stages:<br>
+		 independent filtering and transformation of individual elements (map or transform);<br>
+		 grouping of the results of the previous stage (reduce).<br>
 
-# Описание проведенных тестов:
-## ManyRequests
-Когда запросов приходит слишком много, их обработка занимает время. Запросы, ожидающие обработки, могут просто «‎посидеть»‎ в очереди и подождать, пока сервис-обработчик доберётся до них.
-Для хранения только нужных запросов. Например, вы хотите знать, какие запросы пользователи отправляли на поисковый сервер. Но важны только актуальные запросы за последние сутки. То есть вам интересно время отправки. Хранить запросы старше суток не требуется.
-Каждую минуту приходит один запрос от пользователя. То есть максимальное количество запросов, которые надо хранить, — это количество минут в сутках (1440). Появление 1441 запроса будет означать, что сутки прошли, первый запрос прошлых суток нам больше не интересен и может быть удалён. Для реализации такого механизма удобно использовать deque. Новый запрос легко вставится в конец, а устаревший запрос удалится из начала. 
+# Description of the tests performed:  
+## ManyRequests  
+When there are too many requests, it takes time to process them. Requests waiting to be processed can simply "sit" in the queue and wait for the service handler to get to them.<br>
+To store only the necessary queries. For example, you want to know what queries users have sent to the search server. But only relevant requests for the last day are important. That is, you are interested in the time of sending. It is not required to store requests older than a day.
+One request from the user comes every minute. That is, the maximum number of requests to be stored is the number of minutes per day (1440). The appearance of 1441 requests will mean that the day has passed, the first request of the previous day is no longer interesting to us and can be deleted. To implement such a mechanism, it is convenient to use deque. A new query will be easily inserted at the end, and an outdated query will be deleted from the beginning.<br>
 
-## Split the results into pages
-Итераторы можно применять далеко не в самых очевидных случаях. Представьте, что поисковый сервер содержит сотни тысяч или даже миллионы документов. Из них тысячи подходят под запрос пользователя. В этом случае вывод всех запросов на экран разом не будет хорошей идеей. Нужно разбивать результаты на страницы.
-Пригодятся итераторы. Предположим, у нас есть контейнер. Тогда одна страница — это некий диапазон определённого размера из этого контейнера. Первый элемент входит в страницу, а последний — нет. Зато последний будет первым элементом на следующей странице. То есть можем получить контейнер с результатами, а потом на основе него создать вектор диапазонов, где диапазон будет просто парой итераторов. Первый итератор укажет на начало страницы, а второй — на её конец.
-Отвечать за разделение по страницам может класс Paginator.
+## Split the results into pages  
+Iterators can be used far from the most obvious cases. Imagine that a search server contains hundreds of thousands or even millions of documents. Thousands of them fit the user's request. In this case, displaying all the requests on the screen at once would not be a good idea. You need to break the results into pages.<br>
+Iterators will come in handy. Suppose we have a container. Then one page is a certain range of a certain size from this container. The first element is included in the page, and the last one is not. But the last one will be the first element on the next page. That is, we can get a container with the results, and then create a vector of ranges based on it, where the range will be just a pair of iterators. The first iterator will point to the beginning of the page, and the second one will point to its end.<br>
+The Paginator class can be responsible for the separation by pages.<br>
 
-## Specialization of templates
-Метод FindTopDocuments может вместо статуса принимать более универсальный фильтр документов — функцию-предикат. Она в свою очередь принимает id документа, статус и рейтинг и возвращает bool. Фильтрация документов должна производиться до отсечения топа из пяти штук.
-Вызов FindTopDocuments без второго аргумента должен осуществлять поиск только по актуальным документам.
+## Specialization of templates  
+The FindTopDocuments method can accept a more universal document filter, a predicate function, instead of the status. It, in turn, accepts the document id, status and rating and returns bool. Filtering of documents should be done before cutting off the top of five pieces.
+Calling Find Top Documents without the second argument should search only for current documents.
 
-## Fункция поиска и удаления дубликатов: 
-Поисковые системы сталкиваются с проблемой — зеркалами. Это копии сайта. Их количество в Интернете может достигать десятков или сотен. Чтобы первые страницы поисковой выдачи не состояли из копий одного и того же сайта, нужно разработать дедупликатор. Он удаляет копии из поискового сервера. Дубликатами считаются документы, у которых наборы встречающихся слов совпадают. Совпадение частот необязательно. Порядок слов неважен, а стоп-слова игнорируются. Функция использует только доступные к этому моменту методы поискового сервера.
-При обнаружении дублирующихся документов функция должна удалить документ с большим id из поискового сервера, и при этом сообщить id удалённого документа в соответствии с форматом выходных данных, приведённым ниже.
+## Duplicate search and removal function:  
+Search engines face a problem — mirrors. These are copies of the site. Their number on the Internet can reach tens or hundreds. To ensure that the first pages of the search results do not consist of copies of the same site, you need to develop a deduplicator. It deletes copies from the search server. Duplicates are documents that have the same sets of words that occur. Frequency matching is optional. Word order is unimportant, and stop words are ignored. The function uses only the search server methods available at that moment.<br>
+If duplicate documents are detected, the function should delete a document with a large id from the search server, and at the same time report the id of the deleted document in accordance with the output format.<br>
 
-## Тесты многопоточнности 
-Функция ProcessQueries распараллеливает обработку нескольких запросов к поисковой системе.
-функция ProcessQueriesJoined, подобно функции ProcessQueries, распараллеливает обработку нескольких запросов к поисковой системе, но возвращает набор документов в плоском виде.
-Часто действительно достаточно распараллелить обработку нескольких запросов — и дело в шляпе. Но бывает и другая ситуация: один запрос обрабатывается слишком долго, и распараллелить нужно его реализацию.
-Многопоточная версия метода RemoveDocument в дополнение к однопоточной.
-Многопоточная версия метода MatchDocument в дополнение к однопоточной.
-Многопоточная версия метода FindTopDocuments в дополнение к однопоточной.
+## Multithreading tests  
+The ProcessQueries function parallelizes the processing of multiple queries to the search engine.<br>
+The ProcessQueriesJoined function, like the ProcessQueries function, parallelizes the processing of several queries to the search engine, but returns a set of documents in a flat form.<br>
+Often it is really enough to parallelize the processing of several requests — and the thing is in the hat. But there is another situation: one request is processed for too long, and its implementation needs to be parallelized.<br>
+A multithreaded version of the RemoveDocument method in addition to the single-threaded one.<br>
+A multithreaded version of the MatchDocument method in addition to the single-threaded one.<br>
+A multithreaded version of the FindTopDocuments method in addition to the single-threaded one.<br>
 
-# Особенности
+# Features
 ### Throw an exception
-Конструкторы класса SearchServer выбрасывают исключение invalid_argument, если любое из переданных стоп-слов содержит недопустимые символы, то есть символы с кодами от 0 до 31.
-Метод AddDocument выбрасывает исключение invalid_argument в следующих ситуациях:
-	Попытка добавить документ с отрицательным id;
-	Попытка добавить документ c id ранее добавленного документа;
-	Наличие недопустимых символов (с кодами от 0 до 31) в тексте добавляемого документа.
-Методы FindDocument выбрасывает исключение invalid_argument в следующих ситуациях:
-	В словах поискового запроса есть недопустимые символы с кодами от 0 до 31;
-	Наличие более чем одного минуса перед словами, которых не должно быть в искомых документах, например, пушистый --кот. В середине слов минусы разрешаются, например: иван-чай.
-	Отсутствие текста после символа «минус»: в поисковом запросе: "пушистый -".
-Метод MatchDocument выбрасывает исключение invalid_argument в тех же ситуациях, что и метод FindDocument.
-Метод GetDocumentId выбрасывает исключение out_of_range, если индекс переданного документа выходит за пределы допустимого диапазона (0; количество документов).
+The constructors of the SearchServer class throw an invalid_argument exception if any of the passed stop words contains invalid characters, that is, characters with codes from 0 to 31.
+The addDocument method throws an invalid_argument exception in the following situations:<br>
+	An attempt to add a document with a negative id;<br>
+	Attempt to add a document with the id of a previously added document;<br>
+	The presence of invalid characters (with codes from 0 to 31) in the text of the document being added.<br>
+FindDocument methods throws an invalid_argument exception in the following situations:<br>
+	There are invalid characters with codes from 0 to 31 in the words of the search query;<br>
+	The presence of more than one minus sign before words that should not be in the required documents, for example,   <br>
+	fluffy --cat. In the middle of the words, cons are resolved, for example: ivan-tea.<br>
+The absence of text after the "minus" symbol: in the search query: "fluffy -".<br>
+The MatchDocument method throws an invalid_argument exception in the same situations as the FindDocument method.<br>
+The GetDocumentId method throws an out_of_range exception if the index of the transmitted document is outside the allowed range (0; number of documents).
 
-### Итераторы BEGIN END
-Определены методы begin и end. Они вернут итераторы. Итератор даст доступ к id всех документов, хранящихся в поисковом сервере. 
+### Iterators BEGIN END
+The begin and end methods are defined. They will return iterators. The iterator will give access to the id of all documents stored in the search server.
+
 
