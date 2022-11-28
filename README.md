@@ -60,7 +60,7 @@ mkdir Release; cmake -E chdir Release/ cmake -G "Unix Makefiles" ../ -DCMAKE_BUI
   *"and"* - стоп слово, указанное в конструкторе SearchServer<br>
   *"-rat"* - миус слово<br>
   Минус-слова исключают из результатов поиска документы, содержащие такие слова.<br>
-  Возможный `DocumentStatus: ACTUAL, IRRELEVANT, BANNED, REMOVED` <br>
+  Возможный DocumentStatus: `ACTUAL, IRRELEVANT, BANNED, REMOVED` <br>
   ratings - Каждый документ на входе имеет набор оценок пользователей. <br>
   Первая цифра — это количество оценок<br>
   например:*{4 5 -12 2 1}*;<br>
@@ -70,7 +70,8 @@ mkdir Release; cmake -E chdir Release/ cmake -G "Unix Makefiles" ../ -DCMAKE_BUI
   `FindTopDocuments (ExecutionPolicy,query)`  
   `FindTopDocuments (ExecutionPolicy,query,DocumentStatus)`  
   `FindTopDocuments (ExecutionPolicy,query,DocumentPredicate)`  
-  `FindTopDocuments (query)/FindTopDocuments (query,DocumentStatus)`  
+  `FindTopDocuments (query)`  
+  `FindTopDocuments (query,DocumentStatus)`  
   `FindTopDocuments (query,DocumentPredicate)`<br>
   возвращает vector<Document> подходящих по *query*<br>
   Полезность слов оценивают понятием inverse document frequency или IDF. <br>
