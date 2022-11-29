@@ -1,6 +1,8 @@
 # Search server
 Educational project С++17
 
+Read in other languages: [English](README.md), [Русский](README.RUS.md)
+
 # Program Description
 This is a search engine for lost animals. To do this, you need a search query and the documents that are being searched.
 Let's say someone found a cat on the street and posted an ad about it. So a document appeared in the system "A white fluffy cat with a blue collar was found in the Perovo district in Moscow phone for communication 89222334455". The owner of the cat sent a request "White cat blue collar" and was able to return the pet.In general, the search engine can work with any queries.
